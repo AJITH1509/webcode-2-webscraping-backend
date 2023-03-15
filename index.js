@@ -33,10 +33,10 @@ app.get("/scrape-amazon-product/:keyword", async (req, res) => {
 
   try {
     const scrapedData = await scrapeAmazonProduct(amazonProductUrl);
-    const storeInDb = await client
-      .db("b42wd2")
-      .collection("webscrape")
-      .insertMany(scrapedData);
+    // const storeInDb = await client
+    //   .db("b42wd2")
+    //   .collection("webscrape")
+    //   .insertMany(scrapedData);
     console.log(scrapedData);
     return res.send(scrapedData);
   } catch (error) {
@@ -68,13 +68,19 @@ const scrapeAmazonProduct = async (url) => {
       // console.log("Price:", productPrice);
       // console.log("Rating:", productRating);
       // console.log("Image:", productImage);
-
-      scrapedData.push({
-        name: productName,
-        price: productPrice,
-        rating: productRating,
-        image: productImage,
-      });
+      if (
+        productName !== "" &&
+        productPrice !== "" &&
+        productRating !== "" &&
+        productImage !== ""
+      ) {
+        scrapedData.push({
+          name: productName,
+          price: productPrice,
+          rating: productRating,
+          image: productImage,
+        });
+      }
     });
     // Return an array of objects containing the extracted data
     return scrapedData;
