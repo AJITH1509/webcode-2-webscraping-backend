@@ -33,12 +33,16 @@ app.get("/scrape-amazon-product/:keyword", async (req, res) => {
 
   try {
     const scrapedData = await scrapeAmazonProduct(amazonProductUrl);
-    // const storeInDb = await client
-    //   .db("b42wd2")
-    //   .collection("webscrape")
-    //   .insertMany(scrapedData);
-    console.log(scrapedData);
-    return res.send(scrapedData);
+    const storeInDb = await client
+      .db("b42wd2")
+      .collection("webscrape")
+      .insertOne(scrapedData[0]);
+    const getData = await client
+      .db("b42wd2")
+      .collection("webscrape")
+      .find({})
+      .toArray();
+    return res.send(getData.slice(-1));
   } catch (error) {
     console.error(error);
     return res.status(500).send("Failed to scrape product data");
