@@ -26,7 +26,7 @@ app.get("/", function (request, response) {
 // Endpoint to scrape product data from Amazon
 app.get("/scrape-amazon-product/:keyword", async (req, res) => {
   const { keyword } = req.params;
-  const amazonProductUrl = `http://www.amazon.com/s?k=${keyword}`;
+  const amazonProductUrl = `https://www.amazon.com/s?k=${keyword}`;
   if (!amazonProductUrl) {
     return res.status(400).send("Please provide a valid Amazon product URL");
   }
